@@ -64,7 +64,7 @@ public class SpecificFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_toc, container, false);
 
         view = (FrameLayout) rootView.findViewById(R.id.fragment_tocView);
-        linearLayout = view.findViewById(R.id.linearLayout);
+        //linearLayout = view.findViewById(R.id.linearLayout);
 
         createButtons();
         addButtons();

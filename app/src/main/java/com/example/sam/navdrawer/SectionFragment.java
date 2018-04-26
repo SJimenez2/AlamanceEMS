@@ -67,7 +67,7 @@ public class SectionFragment extends Fragment {
         view = (FrameLayout) rootView.findViewById(R.id.fragment_sectionView);
         linearLayout = view.findViewById(R.id.linearLayout2);
 
-        addSections();
+        //addSections();
 
         return rootView;
     }

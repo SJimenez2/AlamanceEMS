@@ -1,7 +1,5 @@
 package com.example.sam.navdrawer;
 
-import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,14 +11,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import com.github.barteksc.pdfviewer.PDFView;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +20,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    PDFView pdfViewer;
     String files[];
     AssetManager assetManager;
     TextView text;
@@ -39,7 +30,7 @@ public class MainActivity extends AppCompatActivity
     ArrayList<String> protocolSection = new ArrayList<>();
     String name = "";
     String section = "";
-    //MaterialSearchView searchView;
+    ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +44,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //searchView = (MaterialSearchView) findViewById(R.id.search_view);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +54,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -74,6 +63,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Setting initial screen to TOCFragmant
+//        TOCFragment fragment = new TOCFragment();
         TOCFragment fragment = new TOCFragment();
         Bundle bundle = new Bundle();
         bundle.putStringArrayList("Names", protocolName);
@@ -81,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         bundle.putStringArrayList("Sections", protocolSection);
         fragment.setArguments(bundle);
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+        fragmentTransaction.replace(R.id.fram, fragment, "ListFragment");
         fragmentTransaction.commit();
     }
 
@@ -134,30 +124,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-//        MenuItem item = menu.findItem(R.id.action_search);
-//        searchView.setMenuItem(item);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -175,20 +141,9 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
             fragmentTransaction.commit();
         } else if (id == R.id.nav_sections) {
-            SectionFragment fragment = new SectionFragment();
-            Bundle bundle = new Bundle();
-            bundle.putStringArrayList("Names", protocolName);
-            bundle.putStringArrayList("Original Names", protocolOriginal);
-            bundle.putStringArrayList("Sections", protocolSection);
-            fragment.setArguments(bundle);
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fram, fragment, "SectionFragment");
-            fragmentTransaction.commit();
+
         } else if (id == R.id.nav_f3) {
-            Fragment3 fragment = new Fragment3();
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fram, fragment, "Fragment3");
-            fragmentTransaction.commit();
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
