@@ -8,5 +8,17 @@
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="PI">Protocol Introduction PI</string>
+    <string name="UP">Universal Protocols UP</string>
+    <string name="AR">Airway Respiratory Section AR</string>
+    <string name="AC">Adult Cardiac Section AC</string>
+    <string name="AM">Adult Medical Section AM</string>
+    <string name="AO">Adult Obstetrical Section AO</string>
+    <string name="TB">Trauma and Burn Section TB</string>
+    <string name="PC">Pediatric Cardiac Section PC</string>
+    <string name="PM">Pediatric Medical Section PM</string>
+    <string name="TE">Toxin-Environmental Section TE</string>
+    <string name="SC">Special Circumstances Section SC</string>
+    <string name="SO">Special Operations Section SO</string>
+
 </resources>

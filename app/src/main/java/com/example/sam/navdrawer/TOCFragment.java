@@ -24,12 +24,13 @@ public class TOCFragment extends Fragment {
 
     ArrayList<String> colorArray = new ArrayList<String>(Arrays.asList(sectionColor));
 
+    String section = "";
+    boolean toc = true;
     FrameLayout view;
     ListView listView;
     ArrayList<String> protocolName = new ArrayList<>();
     ArrayList<String> protocolOriginal = new ArrayList<>();
     ArrayList<String> protocolSection = new ArrayList<>();
-    //ArrayList<Integer> headingLocations = new ArrayList<>();
     HashMap<Integer, String> headingLocations = new HashMap<Integer, String>();
 
     ArrayList<String> protocolWHeadings = new ArrayList<>();
@@ -48,10 +49,14 @@ public class TOCFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        protocolName = bundle.getStringArrayList("Names");
-        protocolOriginal = bundle.getStringArrayList("Original Names");
-        protocolSection = bundle.getStringArrayList("Sections");
+            protocolName = bundle.getStringArrayList("Names");
+            protocolOriginal = bundle.getStringArrayList("Original Names");
+            protocolSection = bundle.getStringArrayList("Sections");
+            toc = bundle.getBoolean("TOC");
 
+            if(!toc){
+                section = bundle.getString("Individual section");
+            }
     }
 
     @Override
@@ -72,15 +77,25 @@ public class TOCFragment extends Fragment {
 
     private void createListArray(){
 
-        for(int i = 0; i < sectionOrder.length; i++){
-            protocolWHeadings.add(sectionTitles[i]);
+        if(toc){
+            for(int i = 0; i < sectionOrder.length; i++){
 
-            headingLocations.put(protocolWHeadings.size()-1, colorArray.get(0));
-            colorArray.remove(0);
+                protocolWHeadings.add(sectionTitles[i]);
+                headingLocations.put(protocolWHeadings.size()-1, colorArray.get(0));
+                colorArray.remove(0);
 
-            for (int j = 0; j < protocolName.size(); j++){
-                if(protocolSection.get(j).equals(sectionOrder[i])){
-                    protocolWHeadings.add(protocolName.get(j));
+                for (int j = 0; j < protocolName.size(); j++){
+                        if (protocolSection.get(j).equals(sectionOrder[i])) {
+                            protocolWHeadings.add(protocolName.get(j));
+                        }
+                }
+            }
+        } else {
+            protocolWHeadings.add(sectionTitles[0]);
+
+            for (int i = 0; i < protocolName.size(); i++){
+                if(protocolSection.get(i).equals(section)) {
+                    protocolWHeadings.add(protocolName.get(i));
                 }
             }
         }

@@ -8,14 +8,58 @@
             android:id="@+id/nav_toc"
             android:icon="@drawable/ic_menu_camera"
             android:title="Table Of Contents" />
-        <item
-            android:id="@+id/nav_sections"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Sections" />
-        <item
-            android:id="@+id/nav_f3"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Fragment3" />
     </group>
+    <item android:title="Sections">
+        <menu>
+            <item
+                android:id="@+id/nav_PI"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/PI" />
+            <item
+                android:id="@+id/nav_UP"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/UP" />
+            <item
+                android:id="@+id/nav_AR"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/AR" />
+            <item
+                android:id="@+id/nav_AC"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/AC" />
+            <item
+                android:id="@+id/nav_AM"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/AM" />
+            <item
+                android:id="@+id/nav_AO"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/AO" />
+            <item
+                android:id="@+id/nav_TB"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/TB" />
+            <item
+                android:id="@+id/nav_PC"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/PC" />
+            <item
+                android:id="@+id/nav_PM"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/PM" />
+            <item
+                android:id="@+id/nav_TE"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/TE" />
+            <item
+                android:id="@+id/nav_SC"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/SC" />
+            <item
+                android:id="@+id/nav_SO"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/SO" />
+        </menu>
+    </item>
 
 </menu>

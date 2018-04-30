@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.view.Menu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -63,12 +64,12 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Setting initial screen to TOCFragmant
-//        TOCFragment fragment = new TOCFragment();
         TOCFragment fragment = new TOCFragment();
         Bundle bundle = new Bundle();
         bundle.putStringArrayList("Names", protocolName);
         bundle.putStringArrayList("Original Names", protocolOriginal);
         bundle.putStringArrayList("Sections", protocolSection);
+        bundle.putBoolean("TOC",true);
         fragment.setArguments(bundle);
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fram, fragment, "ListFragment");
@@ -136,18 +137,160 @@ public class MainActivity extends AppCompatActivity
             bundle.putStringArrayList("Names", protocolName);
             bundle.putStringArrayList("Original Names", protocolOriginal);
             bundle.putStringArrayList("Sections", protocolSection);
+            bundle.putBoolean("TOC",true);
             fragment.setArguments(bundle);
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_sections) {
-
-        } else if (id == R.id.nav_f3) {
-
+        } else if (id == R.id.nav_PI) {
+            TOCFragment fragment = new TOCFragment();
+            Bundle bundle = new Bundle();
+            bundle.putStringArrayList("Names", protocolName);
+            bundle.putStringArrayList("Original Names", protocolOriginal);
+            bundle.putStringArrayList("Sections", protocolSection);
+            bundle.putString("Individual section", "PI");
+            bundle.putBoolean("TOC", false);
+            fragment.setArguments(bundle);
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+            fragmentTransaction.commit();
         }
+//        }else if (id == R.id.nav_UP) {
+//            TOCFragment fragment = new TOCFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putStringArrayList("Names", sectionContent("UP"));
+//            bundle.putStringArrayList("Original Names", originalContentNames("UP"));
+//            bundle.putStringArrayList("Sections", protocolSection);
+//            fragment.setArguments(bundle);
+//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+//            fragmentTransaction.commit();
+//        } else if (id == R.id.nav_AR) {
+//            TOCFragment fragment = new TOCFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putStringArrayList("Names", sectionContent("AR"));
+//            bundle.putStringArrayList("Original Names", originalContentNames("AR"));
+//            bundle.putStringArrayList("Sections", protocolSection);
+//            fragment.setArguments(bundle);
+//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+//            fragmentTransaction.commit();
+//        }else if (id == R.id.nav_AC) {
+//            TOCFragment fragment = new TOCFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putStringArrayList("Names", sectionContent("AC"));
+//            bundle.putStringArrayList("Original Names", originalContentNames("AC"));
+//            bundle.putStringArrayList("Sections", protocolSection);
+//            fragment.setArguments(bundle);
+//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+//            fragmentTransaction.commit();
+//        }else if (id == R.id.nav_AM) {
+//            TOCFragment fragment = new TOCFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putStringArrayList("Names", sectionContent("AM"));
+//            bundle.putStringArrayList("Original Names", originalContentNames("AM"));
+//            bundle.putStringArrayList("Sections", protocolSection);
+//            fragment.setArguments(bundle);
+//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+//            fragmentTransaction.commit();
+//        }else if (id == R.id.nav_AO) {
+//            TOCFragment fragment = new TOCFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putStringArrayList("Names", sectionContent("AO"));
+//            bundle.putStringArrayList("Original Names", originalContentNames("AO"));
+//            bundle.putStringArrayList("Sections", protocolSection);
+//            fragment.setArguments(bundle);
+//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+//            fragmentTransaction.commit();
+//        }else if (id == R.id.nav_TB) {
+//            TOCFragment fragment = new TOCFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putStringArrayList("Names", sectionContent("TB"));
+//            bundle.putStringArrayList("Original Names", originalContentNames("TB"));
+//            bundle.putStringArrayList("Sections", protocolSection);
+//            fragment.setArguments(bundle);
+//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+//            fragmentTransaction.commit();
+//        }else if (id == R.id.nav_PC) {
+//            TOCFragment fragment = new TOCFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putStringArrayList("Names", sectionContent("PC"));
+//            bundle.putStringArrayList("Original Names", originalContentNames("PC"));
+//            bundle.putStringArrayList("Sections", protocolSection);
+//            fragment.setArguments(bundle);
+//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+//            fragmentTransaction.commit();
+//        }else if (id == R.id.nav_PM) {
+//            TOCFragment fragment = new TOCFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putStringArrayList("Names", sectionContent("PM"));
+//            bundle.putStringArrayList("Original Names", originalContentNames("PM"));
+//            bundle.putStringArrayList("Sections", protocolSection);
+//            fragment.setArguments(bundle);
+//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+//            fragmentTransaction.commit();
+//        }else if (id == R.id.nav_TE) {
+//            TOCFragment fragment = new TOCFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putStringArrayList("Names", sectionContent("TE"));
+//            bundle.putStringArrayList("Original Names", originalContentNames("TE"));
+//            bundle.putStringArrayList("Sections", protocolSection);
+//            fragment.setArguments(bundle);
+//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+//            fragmentTransaction.commit();
+//        }else if (id == R.id.nav_SC) {
+//            TOCFragment fragment = new TOCFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putStringArrayList("Names", sectionContent("SC"));
+//            bundle.putStringArrayList("Original Names", originalContentNames("SC"));
+//            bundle.putStringArrayList("Sections", protocolSection);
+//            fragment.setArguments(bundle);
+//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+//            fragmentTransaction.commit();
+//        }else if (id == R.id.nav_SO) {
+//            TOCFragment fragment = new TOCFragment();
+//            Bundle bundle = new Bundle();
+//            bundle.putStringArrayList("Names", sectionContent("SO"));
+//            bundle.putStringArrayList("Original Names", originalContentNames("SO"));
+//            bundle.putStringArrayList("Sections", protocolSection);
+//            fragment.setArguments(bundle);
+//            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
+//            fragmentTransaction.commit();
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+//    public ArrayList<String> sectionContent(String str){
+//        ArrayList<String> secionName = new ArrayList<>();
+//        for (int i = 0; i < protocolSection.size(); i++) {
+//            if(protocolSection.get(i).equals(str)){
+//                secionName.add(protocolName.get(i));
+//            }
+//        }
+//
+//        return secionName;
+//    }
+//
+//    public ArrayList<String> originalContentNames(String str){
+//        ArrayList<String> originalNameTemp = new ArrayList<>();
+//        for (int i = 0; i < protocolSection.size(); i++) {
+//            if(protocolSection.get(i).equals(str)){
+//                originalNameTemp.add(protocolOriginal.get(i));
+//            }
+//        }
+//
+//        return originalNameTemp;
+//    }
 }
