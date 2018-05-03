@@ -21,4 +21,34 @@
     <string name="SC">Special Circumstances Section SC</string>
     <string name="SO">Special Operations Section SO</string>
 
+    <string-array name="sectionOrder">
+        <item>PI</item>
+        <item>UP</item>
+        <item>AR</item>
+        <item>AC</item>
+        <item>AM</item>
+        <item>AO</item>
+        <item>TB</item>
+        <item>PC</item>
+        <item>PM</item>
+        <item>TE</item>
+        <item>SC</item>
+        <item>SO</item>
+    </string-array>
+
+    <string-array name="sectionTitles">
+        <item>Protocol Introduction PI</item>
+        <item>Universal Protocols UP</item>
+        <item>Airway Respiratory Section AR</item>
+        <item>Adult Cardiac Section AC</item>
+        <item>Adult Medical Section AM</item>
+        <item>Adult Obstetrical Section AO</item>
+        <item>Trauma and Burn Section TB</item>
+        <item>Pediatric Cardiac Section PC</item>
+        <item>Pediatric Medical Section PM</item>
+        <item>Toxin-Environmental Section TE</item>
+        <item>Special Circumstances Section SC</item>
+        <item>Special Operations SectionSO</item>
+    </string-array>
+
 </resources>
