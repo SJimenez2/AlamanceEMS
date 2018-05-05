@@ -1,11 +1,15 @@
 package com.example.sam.navdrawer;
 
 import android.content.res.AssetManager;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,10 +19,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.RunnableFuture;
+//Debugging
+import android.util.Log;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,7 +36,8 @@ public class MainActivity extends AppCompatActivity
     AssetManager assetManager;
     TextView text;
 
-    //new idea
+    Boolean playing = false;
+    FloatingActionButton fab;
     ArrayList<String> protocolName = new ArrayList<>();
     ArrayList<String> protocolOriginal = new ArrayList<>();
     ArrayList<String> protocolSection = new ArrayList<>();
@@ -37,7 +47,12 @@ public class MainActivity extends AppCompatActivity
     String number = "";
     ActionBarDrawerToggle toggle;
 
-    String[] sectionOrder = { "PI", "UP", "AR", "AC", "AM", "AO", "TB", "PC", "PM", "TE", "SC", "SO" };
+    String[] sectionOrder = {"PI", "UP", "AR", "AC", "AM", "AO", "TB", "PC", "PM", "TE", "SC", "SO"};
+
+    Timer timer;
+    MyTimerTask myTimerTask;
+    ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,18 +67,40 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setImageResource(R.drawable.start);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if(!playing){
+                    if(timer != null) {
+                        timer.cancel();
+                    }
+                    timer = new Timer();
+                    myTimerTask = new MyTimerTask();
+                    timer.schedule(myTimerTask, 0, 600);
+
+                    fab.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    fab.setImageResource(R.drawable.pause);
+                    playing = true;
+                } else {
+                    if (timer != null){
+                        timer.cancel();
+                        timer = null;
+                    }
+
+                    fab.setBackgroundTintList(ColorStateList.valueOf(Color.GREEN));
+                    fab.setImageResource(R.drawable.start);
+                    playing = false;
+                }
             }
         });
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -78,9 +115,14 @@ public class MainActivity extends AppCompatActivity
         bundle.putStringArrayList("Sections", protocolSection);
         bundle.putBoolean("TOC",true);
         fragment.setArguments(bundle);
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fram, fragment, "ListFragment");
         fragmentTransaction.commit();
+    }
+
+    private void playsound(){
+        tg.startTone(ToneGenerator.TONE_PROP_BEEP);
     }
 
     private void processFile(String originalName) {
@@ -161,7 +203,8 @@ public class MainActivity extends AppCompatActivity
             bundle.putStringArrayList("Sections", protocolSection);
             bundle.putBoolean("TOC",true);
             fragment.setArguments(bundle);
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            android.support.v4.app.FragmentTransaction fragmentTransaction =
+                    getSupportFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fram, fragment, "ListFragment");
             fragmentTransaction.commit();
         }
@@ -220,12 +263,27 @@ public class MainActivity extends AppCompatActivity
         }
 
         fragment.setArguments(bundle);
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        android.support.v4.app.FragmentTransaction fragmentTransaction =
+                getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
         fragmentTransaction.commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    class MyTimerTask extends TimerTask {
+
+        @Override
+        public void run() {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    playsound();
+                }
+            });
+        }
     }
 }
