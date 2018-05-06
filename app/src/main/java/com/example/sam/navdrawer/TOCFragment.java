@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,15 +91,9 @@ public class TOCFragment extends Fragment implements AdapterView.OnItemClickList
             for(int i = 0; i < sectionTitles.length; i++){
                 protocolWHeadings.add(sectionTitles[i]);
                 headingLocations.put((protocolWHeadings.size()-1), sectionColors.get(i));
-
                 for (int j = 0; j < protocolName.size(); j++){
                         if (protocolSection.get(j).equals(sectionOrder[i])) {
                             protocolWHeadings.add(protocolName.get(j));
-                        }
-
-                        //not getting them
-                        if(protocolSection.get(j).equals("SC")){
-                            Log.d("SC:","" + protocolName.get(j));
                         }
                 }
             }

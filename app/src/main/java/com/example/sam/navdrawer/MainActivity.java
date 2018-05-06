@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity
         ArrayList<String> newOrderOriginalName = new ArrayList<>();
         ArrayList<String> newOrderSections = new ArrayList<>();
 
-        for (int i = 1; i < sectionOrder.length; i++){
+        for (int i = 0; i < sectionOrder.length; i++){
             ArrayList<String> curSections = new ArrayList<>();
             @SuppressLint("UseSparseArrays") HashMap<Integer, String> name = new HashMap<>();
             @SuppressLint("UseSparseArrays") HashMap<Integer, String> ogName = new HashMap<>();
@@ -177,12 +177,10 @@ public class MainActivity extends AppCompatActivity
                 }
             }
 
-            for (int j = 0; j < name.size(); j++){
-                    if(name.containsKey(j)){
-                        newOrderName.add(name.get(j));
-                        newOrderOriginalName.add(ogName.get(j));
-                        newOrderSections.add(curSections.get(j));
-                    }
+            for(Integer key : name.keySet()){
+                newOrderName.add(name.get(key));
+                newOrderOriginalName.add(ogName.get(key));
+                newOrderSections.add(curSections.get(key-1));
             }
         }
 
