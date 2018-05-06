@@ -1,32 +1,33 @@
 package com.example.sam.navdrawer;
 
+import android.annotation.SuppressLint;
 import android.content.res.AssetManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.ToneGenerator;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.RunnableFuture;
-//Debugging
-import android.util.Log;
+
 
 
 public class MainActivity extends AppCompatActivity
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity
     AssetManager assetManager;
     TextView text;
 
+    TOCFragment fragment;
     Boolean playing = false;
     FloatingActionButton fab;
     ArrayList<String> protocolName = new ArrayList<>();
@@ -62,13 +64,12 @@ public class MainActivity extends AppCompatActivity
         loadFiles();
         orderFiles();
 
-
         //default code
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setImageResource(R.drawable.start);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,17 +99,17 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //Setting initial screen to base TOCFragmant
-        TOCFragment fragment = new TOCFragment();
+        fragment = new TOCFragment();
         Bundle bundle = new Bundle();
         bundle.putStringArrayList("Names", protocolName);
         bundle.putStringArrayList("Original Names", protocolOriginal);
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity
 
         name = name + originalName.substring(0, originalName.indexOf("Final")-1);
 
-        if (name.indexOf("Protocol") != -1) {
+        if (name.contains("Protocol")) {
             name = name.substring(0, name.indexOf("Protocol")-1);
         }
 
@@ -150,8 +151,8 @@ public class MainActivity extends AppCompatActivity
     private void loadFiles(){
         try {
             files = assetManager.list("PDFs");
-            for (int i = 0; i < files.length; i++){
-                processFile(files[i]);
+            for (String file : files) {
+                processFile(file);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -165,8 +166,8 @@ public class MainActivity extends AppCompatActivity
 
         for (int i = 1; i < sectionOrder.length; i++){
             ArrayList<String> curSections = new ArrayList<>();
-            HashMap<Integer, String> name = new HashMap<>();
-            HashMap<Integer, String> ogName = new HashMap<>();
+            @SuppressLint("UseSparseArrays") HashMap<Integer, String> name = new HashMap<>();
+            @SuppressLint("UseSparseArrays") HashMap<Integer, String> ogName = new HashMap<>();
 
             for (int j = 0; j < protocolName.size(); j++){
                 if(protocolSection.get(j).equals(sectionOrder[i])){
@@ -192,7 +193,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -210,13 +211,36 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        MenuItem searchItem = menu.findItem(R.id.menuSearch);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                fragment.mAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        TOCFragment fragment = new TOCFragment();
+        fragment = new TOCFragment();
         Bundle bundle = new Bundle();
         bundle.putStringArrayList("Names", protocolName);
         bundle.putStringArrayList("Original Names", protocolOriginal);
@@ -268,7 +292,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.fram, fragment, "TOCFragment");
         fragmentTransaction.commit();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

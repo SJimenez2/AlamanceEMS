@@ -1,6 +1,8 @@
 package com.example.sam.navdrawer;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,24 +13,24 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
+
+import static java.util.Arrays.asList;
 
 public class TOCFragment extends Fragment implements AdapterView.OnItemClickListener{
 
-    private CustomAdapter mAdapter;
-
-    String section = "";
     boolean toc = true;
-
+    CustomAdapter mAdapter;
+    String section = "";
     ListView listView;
 
     ArrayList<String> protocolName = new ArrayList<>();
     ArrayList<String> protocolOriginal = new ArrayList<>();
     ArrayList<String> protocolSection = new ArrayList<>();
-    HashMap<Integer, String> headingLocations = new HashMap<Integer, String>();
+    @SuppressLint("UseSparseArrays")
+    HashMap<Integer, String> headingLocations = new HashMap<>();
     ArrayList<String> protocolWHeadings = new ArrayList<>();
 
     String[] sectionOrder = { "PI", "UP", "AR", "AC", "AM", "AO",
@@ -41,9 +43,9 @@ public class TOCFragment extends Fragment implements AdapterView.OnItemClickList
             "Toxin-Environmental Section TE", "Special Circumstances Section SC",
             "Special Operations SectionSO" };
 
-    ArrayList<String> sectionColors = new ArrayList<String>(Arrays.asList(new String[] {"#0c0c0c",
+    ArrayList<String> sectionColors = new ArrayList<String>(asList("#0c0c0c",
             "#92d050", "#00afef", "#001f5f", "#50622a", "#6f2f9f", "#ff0000",
-            "#538ad3", "#4aacc5", "#ffc000", "#0c0c0c", "#ffc000"}));
+            "#538ad3", "#4aacc5", "#ffc000", "#0c0c0c", "#ffc000"));
 
     public TOCFragment() {
         // Required empty public constructor
@@ -54,7 +56,8 @@ public class TOCFragment extends Fragment implements AdapterView.OnItemClickList
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-            protocolName = bundle.getStringArrayList("Names");
+        assert bundle != null;
+        protocolName = bundle.getStringArrayList("Names");
             protocolOriginal = bundle.getStringArrayList("Original Names");
             protocolSection = bundle.getStringArrayList("Sections");
             toc = bundle.getBoolean("TOC");
@@ -65,17 +68,18 @@ public class TOCFragment extends Fragment implements AdapterView.OnItemClickList
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_toc, container, false);
 
-        FrameLayout view = (FrameLayout) rootView.findViewById(R.id.fragment_tocView);
+        FrameLayout view = rootView.findViewById(R.id.fragment_tocView);
         listView = view.findViewById(R.id.ListView1);
 
         createListArray();
 
-        mAdapter = new CustomAdapter(this.getContext(), sectionColors, headingLocations);
+        mAdapter = new CustomAdapter(Objects.requireNonNull(this.getContext()), headingLocations, protocolWHeadings);
         createList();
+
         listView.setAdapter(mAdapter);
         listView.setOnItemClickListener(this);
 
@@ -92,6 +96,11 @@ public class TOCFragment extends Fragment implements AdapterView.OnItemClickList
                 for (int j = 0; j < protocolName.size(); j++){
                         if (protocolSection.get(j).equals(sectionOrder[i])) {
                             protocolWHeadings.add(protocolName.get(j));
+                        }
+
+                        //not getting them
+                        if(protocolSection.get(j).equals("SC")){
+                            Log.d("SC:","" + protocolName.get(j));
                         }
                 }
             }
@@ -113,17 +122,11 @@ public class TOCFragment extends Fragment implements AdapterView.OnItemClickList
 
     private void createList(){
         for (int i = 0; i < protocolWHeadings.size(); i++){
-            boolean title = false;
 
-            for (int j = 0; j < sectionTitles.length; j++) {
-                if (protocolWHeadings.get(i).equals(sectionTitles[j])) {
-                    mAdapter.addSectionHeaderItem(protocolWHeadings.get(i));
-                    title = true;
+            for (String sectionTitle : sectionTitles) {
+                if (protocolWHeadings.get(i).equals(sectionTitle)) {
+                    mAdapter.addSectionHeaderItem(i);
                 }
-            }
-
-            if(!title){
-                mAdapter.addItem(protocolWHeadings.get(i));
             }
         }
     }
@@ -136,7 +139,7 @@ public class TOCFragment extends Fragment implements AdapterView.OnItemClickList
                 Bundle bundle = new Bundle();
                 bundle.putString("Name of PDF", protocolOriginal.get(i));
                 fragment.setArguments(bundle);
-                android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fram, fragment, "PDFFragment");
                 fragmentTransaction.commit();
             }
