@@ -8,18 +8,33 @@
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="PI">Protocol Introduction PI</string>
-    <string name="UP">Universal Protocols UP</string>
-    <string name="AR">Airway Respiratory Section AR</string>
-    <string name="AC">Adult Cardiac Section AC</string>
-    <string name="AM">Adult Medical Section AM</string>
-    <string name="AO">Adult Obstetrical Section AO</string>
-    <string name="TB">Trauma and Burn Section TB</string>
-    <string name="PC">Pediatric Cardiac Section PC</string>
-    <string name="PM">Pediatric Medical Section PM</string>
-    <string name="TE">Toxin-Environmental Section TE</string>
-    <string name="SC">Special Circumstances Section SC</string>
-    <string name="SO">Special Operations Section SO</string>
+    <string name="PI">Protocol Introduction (PI)</string>
+    <string name="UP">Universal Protocols (UP)</string>
+    <string name="AR">Airway Respiratory (AR)</string>
+    <string name="AC">Adult Cardiac (AC)</string>
+    <string name="AM">Adult Medical (AM)</string>
+    <string name="AO">Adult Obstetrical (AO)</string>
+    <string name="TB">Trauma and Burn (TB)</string>
+    <string name="PC">Pediatric Cardiac (PC)</string>
+    <string name="PM">Pediatric Medical (PM)</string>
+    <string name="TE">Toxin-Environmental (TE)</string>
+    <string name="SC">Special Circumstances (SC)</string>
+    <string name="SO">Special Operations (SO)</string>
+
+    <string-array name="sectionColors">
+        <item>#0c0c0c</item>
+        <item>#92d050</item>
+        <item>#00afef</item>
+        <item>#001f5f</item>
+        <item>#50622a</item>
+        <item>#6f2f9f</item>
+        <item>#ff0000</item>
+        <item>#538ad3</item>
+        <item>#4aacc5</item>
+        <item>#ffc000</item>
+        <item>#0c0c0c</item>
+        <item>#ffc000</item>
+    </string-array>
 
     <string-array name="sectionOrder">
         <item>PI</item>
@@ -37,18 +52,18 @@
     </string-array>
 
     <string-array name="sectionTitles">
-        <item>Protocol Introduction PI</item>
-        <item>Universal Protocols UP</item>
-        <item>Airway Respiratory Section AR</item>
-        <item>Adult Cardiac Section AC</item>
-        <item>Adult Medical Section AM</item>
-        <item>Adult Obstetrical Section AO</item>
-        <item>Trauma and Burn Section TB</item>
-        <item>Pediatric Cardiac Section PC</item>
-        <item>Pediatric Medical Section PM</item>
-        <item>Toxin-Environmental Section TE</item>
-        <item>Special Circumstances Section SC</item>
-        <item>Special Operations SectionSO</item>
+        <item>Protocol Introduction (PI)</item>
+        <item>Universal Protocols (UP)</item>
+        <item>Airway Respiratory (AR)</item>
+        <item>Adult Cardiac (AC)</item>
+        <item>Adult Medical (AM)</item>
+        <item>Adult Obstetrical (AO)</item>
+        <item>Trauma and Burn (TB)</item>
+        <item>Pediatric Cardiac (PC)</item>
+        <item>Pediatric Medical (PM)</item>
+        <item>Toxin-Environmental (TE)</item>
+        <item>Special Circumstances (SC)</item>
+        <item>Special Operations (SO)</item>
     </string-array>
 
 </resources>

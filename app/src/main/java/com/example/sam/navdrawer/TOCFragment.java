@@ -25,30 +25,20 @@ public class TOCFragment extends Fragment implements AdapterView.OnItemClickList
     String section = "";
     ListView listView;
 
+    String[] sectionOrder ;
+    String[] sectionTitles;
+    ArrayList<String> sectionColors;
+
     ArrayList<String> protocolName = new ArrayList<>();
     ArrayList<String> protocolOriginal = new ArrayList<>();
     ArrayList<String> protocolSection = new ArrayList<>();
-    @SuppressLint("UseSparseArrays")
-    HashMap<Integer, String> headingLocations = new HashMap<>();
     ArrayList<String> protocolWHeadings = new ArrayList<>();
 
-    String[] sectionOrder = { "PI", "UP", "AR", "AC", "AM", "AO",
-            "TB", "PC", "PM", "TE", "SC", "SO" };
-
-    String[] sectionTitles = { "Protocol Introduction PI", "Universal Protocols UP",
-            "Airway Respiratory Section AR", "Adult Cardiac Section AC", "Adult Medical Section AM",
-            "Adult Obstetrical Section AO", "Trauma and Burn Section TB",
-            "Pediatric Cardiac Section PC", "Pediatric Medical Section PM",
-            "Toxin-Environmental Section TE", "Special Circumstances Section SC",
-            "Special Operations SectionSO" };
-
-    ArrayList<String> sectionColors = new ArrayList<String>(asList("#0c0c0c",
-            "#92d050", "#00afef", "#001f5f", "#50622a", "#6f2f9f", "#ff0000",
-            "#538ad3", "#4aacc5", "#ffc000", "#0c0c0c", "#ffc000"));
+    @SuppressLint("UseSparseArrays")
+    HashMap<Integer, String> headingLocations = new HashMap<>();
 
     public TOCFragment() {
         // Required empty public constructor
-
     }
 
     @Override
@@ -64,6 +54,10 @@ public class TOCFragment extends Fragment implements AdapterView.OnItemClickList
             if(!toc){
                 section = bundle.getString("Individual section");
             }
+
+        sectionOrder = getResources().getStringArray(R.array.sectionOrder);
+        sectionTitles = getResources().getStringArray(R.array.sectionTitles);
+        sectionColors = new ArrayList<>(asList(getResources().getStringArray(R.array.sectionColors)));
     }
 
     @Override

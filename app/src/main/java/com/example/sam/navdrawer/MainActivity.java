@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -48,8 +49,9 @@ public class MainActivity extends AppCompatActivity
     String section = "";
     String number = "";
     ActionBarDrawerToggle toggle;
+    SearchView searchView;
 
-    String[] sectionOrder = {"PI", "UP", "AR", "AC", "AM", "AO", "TB", "PC", "PM", "TE", "SC", "SO"};
+    String[] sectionOrder;
 
     Timer timer;
     MyTimerTask myTimerTask;
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sectionOrder = getResources().getStringArray(R.array.sectionOrder);
         setContentView(R.layout.activity_main);
         assetManager = getAssets();
         loadFiles();
@@ -122,10 +125,12 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
+    //Metronome beep sound
     private void playsound(){
         tg.startTone(ToneGenerator.TONE_PROP_BEEP);
     }
 
+    //Formats and saves the String as a PDF name
     private void processFile(String originalName) {
         String saveOriginalName = originalName;
         name = originalName.substring(0, originalName.indexOf(' '));
@@ -148,6 +153,7 @@ public class MainActivity extends AppCompatActivity
         protocolNumber.add(number);
     }
 
+    // Loads PDFs into app
     private void loadFiles(){
         try {
             files = assetManager.list("PDFs");
@@ -159,6 +165,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // Reorders PDFs to fix 10 before 2
     private void orderFiles(){
         ArrayList<String> newOrderName = new ArrayList<>();
         ArrayList<String> newOrderOriginalName = new ArrayList<>();
@@ -189,9 +196,12 @@ public class MainActivity extends AppCompatActivity
         protocolSection = new ArrayList<>(newOrderSections);
     }
 
+    // Always returns to ToC
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        searchView.onActionViewCollapsed();
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -209,12 +219,23 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // Creates title bar
     @Override
     public boolean onCreateOptionsMenu (Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
         MenuItem searchItem = menu.findItem(R.id.menuSearch);
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView = (SearchView) searchItem.getActionView();
+
+        //Searchview window coloring
+        LinearLayout ll = (LinearLayout)searchView.getChildAt(0);
+        LinearLayout ll2 = (LinearLayout)ll.getChildAt(2);
+        LinearLayout ll3 = (LinearLayout)ll2.getChildAt(1);
+        SearchView.SearchAutoComplete autoComplete = ((SearchView.SearchAutoComplete)ll3.getChildAt(0));
+        autoComplete.setHintTextColor(Color.BLACK);
+        autoComplete.setTextColor(Color.BLACK);
+        autoComplete.setHint("Search...");
+        autoComplete.setBackgroundColor(Color.WHITE);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -232,6 +253,7 @@ public class MainActivity extends AppCompatActivity
         return super.onCreateOptionsMenu(menu);
     }
 
+    // Opens navigation bar content when clicked
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

@@ -23,16 +23,8 @@ public class CustomAdapter extends BaseAdapter implements Filterable{
     private TreeSet<Integer> sectionHeader = new TreeSet<>();
     private ArrayList<String> originalData = null;
 
-    ArrayList<String> sectionTitles = new ArrayList<String>(asList("Protocol Introduction PI", "Universal Protocols UP",
-            "Airway Respiratory Section AR", "Adult Cardiac Section AC", "Adult Medical Section AM",
-            "Adult Obstetrical Section AO", "Trauma and Burn Section TB",
-            "Pediatric Cardiac Section PC", "Pediatric Medical Section PM",
-            "Toxin-Environmental Section TE", "Special Circumstances Section SC",
-            "Special Operations SectionSO" ));
-
-    ArrayList<String> sectionColors = new ArrayList<String>(asList("#0c0c0c",
-            "#92d050", "#00afef", "#001f5f", "#50622a", "#6f2f9f", "#ff0000",
-            "#538ad3", "#4aacc5", "#ffc000", "#0c0c0c", "#ffc000"));
+    ArrayList<String> sectionTitles;
+    ArrayList<String> sectionColors;
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SEPARATOR = 1;
@@ -48,6 +40,9 @@ public class CustomAdapter extends BaseAdapter implements Filterable{
         headingLocations = new HashMap<>(headingLocations1);
         mData = list;
         originalData = list;
+
+        sectionTitles = new ArrayList<>(asList(context.getResources().getStringArray(R.array.sectionTitles)));
+        sectionColors = new ArrayList<>(asList(context.getResources().getStringArray(R.array.sectionColors)));
     }
 
     public void addSectionHeaderItem(final int i) {
