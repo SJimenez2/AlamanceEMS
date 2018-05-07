@@ -3,6 +3,7 @@ package com.example.sam.navdrawer;
 
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.FrameLayout;
 import com.github.barteksc.pdfviewer.PDFView;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 /**
@@ -32,18 +34,19 @@ public class PDFFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        assetManager = getActivity().getAssets();
+        assetManager = Objects.requireNonNull(getActivity()).getAssets();
         Bundle bundle = getArguments();
+        assert bundle != null;
         protocolName = bundle.getString("Name of PDF");
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_pdf, container, false);
-        view = (FrameLayout) rootView.findViewById(R.id.fragment_pdf);
-        pdfViewer = (PDFView) view.findViewById(R.id.pdfView);
+        view = rootView.findViewById(R.id.fragment_pdf);
+        pdfViewer = view.findViewById(R.id.pdfView);
 
 
         //pdfViewer.fromAsset(protocolName);

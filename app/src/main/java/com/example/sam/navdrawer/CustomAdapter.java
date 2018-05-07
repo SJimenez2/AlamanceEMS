@@ -1,5 +1,6 @@
 package com.example.sam.navdrawer;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -18,10 +19,10 @@ import static java.util.Arrays.asList;
 
 public class CustomAdapter extends BaseAdapter implements Filterable{
 
-    private ArrayList<String> mData = new ArrayList<String>();
+    private ArrayList<String> mData;
     private HashMap<Integer, String> headingLocations;
     private TreeSet<Integer> sectionHeader = new TreeSet<>();
-    private ArrayList<String> originalData = null;
+    private ArrayList<String> originalData;
 
     ArrayList<String> sectionTitles;
     ArrayList<String> sectionColors;
@@ -31,11 +32,8 @@ public class CustomAdapter extends BaseAdapter implements Filterable{
     private LayoutInflater mInflater;
     private CustomFilter mFilter = new CustomFilter();
 
-    public CustomAdapter(Context context) {
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    public CustomAdapter(Context context, HashMap<Integer, String> headingLocations1, ArrayList<String> list) {
+    @SuppressLint("UseSparseArrays")
+    CustomAdapter(Context context, HashMap<Integer, String> headingLocations1, ArrayList<String> list) {
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         headingLocations = new HashMap<>(headingLocations1);
         mData = list;
@@ -50,7 +48,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable{
         notifyDataSetChanged();
     }
 
-    public void updateHeadingLocations(ArrayList<String> list){
+    private void updateHeadingLocations(ArrayList<String> list){
         headingLocations.clear();
         sectionHeader.clear();
         for(int i = 0; i < list.size(); i++){
@@ -88,8 +86,9 @@ public class CustomAdapter extends BaseAdapter implements Filterable{
         return position;
     }
 
+    @SuppressLint("InflateParams")
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder;
         int rowType = getItemViewType(position);
 
             holder = new ViewHolder();
@@ -97,16 +96,16 @@ public class CustomAdapter extends BaseAdapter implements Filterable{
                 switch (rowType) {
                     case TYPE_ITEM:
                         convertView = mInflater.inflate(R.layout.customlayoutlist, null);
-                        holder.textView = (TextView) convertView.findViewById(R.id.text);
+                        holder.textView = convertView.findViewById(R.id.text);
                         break;
 
 
                     case TYPE_SEPARATOR:
                         convertView = mInflater.inflate(R.layout.customlayoutheading, null);
-                        holder.textView = (TextView) convertView.findViewById(R.id.textSeparator);
+                        holder.textView = convertView.findViewById(R.id.textSeparator);
                         break;
                 }
-                if (headingLocations.containsKey(position) && sectionTitles.contains(mData.get(position).toString())) {
+                if (headingLocations.containsKey(position) && sectionTitles.contains(mData.get(position))) {
                     convertView.setBackgroundColor(Color.parseColor(headingLocations.get(position)));
                 }
                 convertView.setTag(holder);
@@ -127,6 +126,7 @@ public class CustomAdapter extends BaseAdapter implements Filterable{
 
     class CustomFilter extends Filter {
 
+        @SuppressWarnings("unchecked")
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
@@ -137,21 +137,21 @@ public class CustomAdapter extends BaseAdapter implements Filterable{
             final ArrayList<String> list = originalData;
 
             int count = list.size();
-            final ArrayList<String> nlist = new ArrayList<>(count);
+            final ArrayList<String> nList = new ArrayList<>(count);
 
             String filterableString;
 
             for (int i = 0; i < count; i++) {
                 filterableString = list.get(i);
                 if (filterableString.toLowerCase().contains(filterString) && filterableString.contains("-")) {
-                    nlist.add(filterableString);
+                    nList.add(filterableString);
                 } else if(!filterableString.contains("-")){
-                    nlist.add(filterableString);
+                    nList.add(filterableString);
                 }
             }
 
-            results.values = nlist;
-            results.count = nlist.size();
+            results.values = nList;
+            results.count = nList.size();
 
             updateHeadingLocations((ArrayList<String>) results.values);
 

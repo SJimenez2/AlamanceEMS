@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Setting initial screen to base TOCFragmant
+        //Setting initial screen to base TOCFragment
         fragment = new TOCFragment();
         Bundle bundle = new Bundle();
         bundle.putStringArrayList("Names", protocolName);
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     //Metronome beep sound
-    private void playsound(){
+    private void playSound(){
         tg.startTone(ToneGenerator.TONE_PROP_BEEP);
     }
 
@@ -171,23 +171,23 @@ public class MainActivity extends AppCompatActivity
         ArrayList<String> newOrderOriginalName = new ArrayList<>();
         ArrayList<String> newOrderSections = new ArrayList<>();
 
-        for (int i = 0; i < sectionOrder.length; i++){
+        for (String aSectionOrder : sectionOrder) {
             ArrayList<String> curSections = new ArrayList<>();
             @SuppressLint("UseSparseArrays") HashMap<Integer, String> name = new HashMap<>();
             @SuppressLint("UseSparseArrays") HashMap<Integer, String> ogName = new HashMap<>();
 
-            for (int j = 0; j < protocolName.size(); j++){
-                if(protocolSection.get(j).equals(sectionOrder[i])){
+            for (int j = 0; j < protocolName.size(); j++) {
+                if (protocolSection.get(j).equals(aSectionOrder)) {
                     curSections.add(protocolSection.get(j));
                     name.put(Integer.parseInt(protocolNumber.get(j)), protocolName.get(j));
                     ogName.put(Integer.parseInt(protocolNumber.get(j)), protocolOriginal.get(j));
                 }
             }
 
-            for(Integer key : name.keySet()){
+            for (Integer key : name.keySet()) {
                 newOrderName.add(name.get(key));
                 newOrderOriginalName.add(ogName.get(key));
-                newOrderSections.add(curSections.get(key-1));
+                newOrderSections.add(curSections.get(key - 1));
             }
         }
 
@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity
         MenuItem searchItem = menu.findItem(R.id.menuSearch);
         searchView = (SearchView) searchItem.getActionView();
 
-        //Searchview window coloring
+        //SearchView window coloring
         LinearLayout ll = (LinearLayout)searchView.getChildAt(0);
         LinearLayout ll2 = (LinearLayout)ll.getChildAt(2);
         LinearLayout ll3 = (LinearLayout)ll2.getChildAt(1);
@@ -325,7 +325,7 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void run() {
-                    playsound();
+                    playSound();
                 }
             });
         }
