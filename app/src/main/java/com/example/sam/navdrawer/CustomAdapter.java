@@ -86,31 +86,32 @@ public class CustomAdapter extends BaseAdapter implements Filterable{
         return position;
     }
 
+    // Creates different views depending on if they are titles or not
     @SuppressLint("InflateParams")
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         int rowType = getItemViewType(position);
 
-            holder = new ViewHolder();
+        holder = new ViewHolder();
 
-                switch (rowType) {
-                    case TYPE_ITEM:
-                        convertView = mInflater.inflate(R.layout.customlayoutlist, null);
-                        holder.textView = convertView.findViewById(R.id.text);
-                        break;
+        switch (rowType) {
+            case TYPE_ITEM:
+                convertView = mInflater.inflate(R.layout.customlayoutlist, null);
+                holder.textView = convertView.findViewById(R.id.text);
+                break;
 
 
-                    case TYPE_SEPARATOR:
-                        convertView = mInflater.inflate(R.layout.customlayoutheading, null);
-                        holder.textView = convertView.findViewById(R.id.textSeparator);
-                        break;
-                }
-                if (headingLocations.containsKey(position) && sectionTitles.contains(mData.get(position))) {
-                    convertView.setBackgroundColor(Color.parseColor(headingLocations.get(position)));
-                }
-                convertView.setTag(holder);
+            case TYPE_SEPARATOR:
+                convertView = mInflater.inflate(R.layout.customlayoutheading, null);
+                holder.textView = convertView.findViewById(R.id.textSeparator);
+                break;
+        }
+        if (headingLocations.containsKey(position) && sectionTitles.contains(mData.get(position))) {
+            convertView.setBackgroundColor(Color.parseColor(headingLocations.get(position)));
+        }
+        convertView.setTag(holder);
 
-            holder.textView.setText(mData.get(position));
+        holder.textView.setText(mData.get(position));
 
         return convertView;
     }
@@ -141,6 +142,8 @@ public class CustomAdapter extends BaseAdapter implements Filterable{
 
             String filterableString;
 
+            //Checks to see if content has the string searched
+            //Keeps all headings regardless of if they have content
             for (int i = 0; i < count; i++) {
                 filterableString = list.get(i);
                 if (filterableString.toLowerCase().contains(filterString) && filterableString.contains("-")) {
@@ -153,8 +156,13 @@ public class CustomAdapter extends BaseAdapter implements Filterable{
             results.values = nList;
             results.count = nList.size();
 
-            updateHeadingLocations((ArrayList<String>) results.values);
+            //Shows No Results... when only headings are present
+            if (((ArrayList<String>) results.values).size() == 11) {
+                nList.clear();
+                nList.add(0, "No Results...");
+            }
 
+            updateHeadingLocations((ArrayList<String>) results.values);
             return results;
         }
 

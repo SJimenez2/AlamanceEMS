@@ -8,6 +8,9 @@
     <string name="action_settings">Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="TOC">Table of Contents</string>
+    <string name="Sections">Protocol Sections</string>
+
     <string name="PI">Protocol Introduction (PI)</string>
     <string name="UP">Universal Protocols (UP)</string>
     <string name="AR">Airway Respiratory (AR)</string>

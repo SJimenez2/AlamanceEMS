@@ -7,9 +7,9 @@
         <item
             android:id="@+id/nav_toc"
             android:icon="@drawable/list1"
-            android:title="Table Of Contents" />
+            android:title="@string/TOC" />
     </group>
-    <item android:title="Sections">
+    <item android:title="@string/Sections">
         <menu>
             <item
                 android:id="@+id/nav_PI"
